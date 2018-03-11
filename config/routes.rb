@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
-  resources :contacts do
+  resources :tops do
+  end
+  
+  resources :webpages do
   end
   
   get '/blogs', to: 'blogs#index'
-  get '/stocks', to: 'stocks#index' 
   
   resources :blogs do
     collection do
