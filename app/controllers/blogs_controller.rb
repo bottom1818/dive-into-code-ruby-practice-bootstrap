@@ -1,5 +1,7 @@
 class BlogsController < ApplicationController
+  include SessionsHelper
   before_action :set_blog, only: [:show, :edit, :update, :destroy]
+  before_action :current_user, only: [:new, :show, :edit, :destroy]
   
   def index
     @blogs = Blog.all
@@ -8,11 +10,15 @@ class BlogsController < ApplicationController
   end
 
   def new
+    if !logged_in?
+      redirect_to new_session_path
+    end
     if params[:back]
       @blog = Blog.new(blog_params)
     else
       @blog = Blog.new
     end
+
   end
   
   def create
@@ -33,10 +39,16 @@ class BlogsController < ApplicationController
   
   def show
     #@blog = Blog.find(params[:id])
+    if !logged_in?
+      redirect_to new_session_path
+    end
   end
   
   def edit
     #@blog = Blog.find(params[:id])
+    if !logged_in?
+      redirect_to new_session_path
+    end
   end
   
   def update
@@ -49,6 +61,9 @@ class BlogsController < ApplicationController
   end
   
   def destroy
+    if !logged_in?
+      redirect_to new_session_path
+    end
     @blog.destroy
     redirect_to blogs_path, notice:"ブログを削除しました！"
   end

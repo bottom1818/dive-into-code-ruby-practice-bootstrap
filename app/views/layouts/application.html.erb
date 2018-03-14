@@ -26,6 +26,13 @@
             <ul class="nav navbar-nav">
               <li><%= link_to 'トップページ', tops_path %></li>
               <li><%= link_to 'ブログ', blogs_path %></li>
+              <% if logged_in? %>
+                <li><%= link_to "ユーザプロフィール", user_path(current_user.id) %></li>
+                <li><%= link_to "ログアウト", session_path(current_user.id), method: :delete %></li>
+              <% else %>
+                <li><%= link_to "サインアップ", new_user_path %></li>
+                <li><%= link_to "ログイン", new_session_path %></li>
+              <% end %>
             </ul>
           </div>
         </div>

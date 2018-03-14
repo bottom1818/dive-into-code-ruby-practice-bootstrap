@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
+  resources :users do
+    
+  end
+  
+  resources :sessions do
+    
+  end
+  
   resources :tops do
+    
   end
   
   resources :webpages do
