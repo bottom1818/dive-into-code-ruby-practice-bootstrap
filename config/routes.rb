@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     
   end
   
+  resources :favorites, only: [:create, :destroy]
+  
   resources :webpages do
   end
   

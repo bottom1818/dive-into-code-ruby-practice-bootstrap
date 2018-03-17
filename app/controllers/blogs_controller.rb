@@ -18,6 +18,11 @@ class BlogsController < ApplicationController
     else
       @blog = Blog.new
     end
+    @blog.user = current_user
+
+  logger.debug("Debug blog new-----")
+  logger.debug(@blog)
+  logger.debug(@blog.user)
 
   end
   
@@ -27,6 +32,12 @@ class BlogsController < ApplicationController
     #Blog.create(blog_params)
     #redirect_to new_blog_path
     @blog = Blog.new(blog_params)
+    @blog.user = current_user
+    
+    logger.debug("Debug blog create-----")
+    logger.debug(@blog)
+    logger.debug(@blog.user)
+    
     if @blog.save
       # 一覧画面へ遷移して"ブログを作成しました！"とメッセージを表示します。
       redirect_to blogs_path, notice: "ブログを作成しました！"
@@ -42,6 +53,7 @@ class BlogsController < ApplicationController
     if !logged_in?
       redirect_to new_session_path
     end
+    @favorite = current_user.favorites.find_by(blog_id: @blog.id)
   end
   
   def edit
@@ -70,6 +82,11 @@ class BlogsController < ApplicationController
   
   def confirm
     @blog = Blog.new(blog_params)
+    @blog.user = current_user
+
+    logger.debug("Debug blog confirm-----")
+    logger.debug(@blog)
+    logger.debug(@blog.user)
     render :new if @blog.invalid?
   end
   

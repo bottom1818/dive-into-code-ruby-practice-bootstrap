@@ -1,7 +1,17 @@
 <h1>ブログ詳細画面</h1>
 <p>タイトル: <%= @blog.title %></p>
 <p>内容: <%= @blog.content %></p>
+<p>作成者: <%= @current_user.name %></p>
 
-<%= link_to "ブログを編集する", edit_blog_path(@blog.id) %>
+<%= link_to 'ブログ一覧画面にもどる', blogs_path, class: 'btn btn-primary' %>
 
-<%= link_to 'ブログ一覧画面にもどる', blogs_path %>
+
+<% if @blog.user_id == @current_user.id %>
+  <%= link_to "ブログを編集する", edit_blog_path(@blog.id), class: 'btn btn-primary' %>
+<% else %>
+  <% if @favorite.present? %>
+    <%= link_to 'お気に入り解除する', favorite_path(blog_id: @blog.id), method: :delete, class: 'btn btn-danger' %>
+  <% else %>
+    <%= link_to 'お気に入りする', favorites_path(blog_id: @blog.id), method: :post, class: 'btn btn-primary' %>
+  <% end %>
+<% end %>
