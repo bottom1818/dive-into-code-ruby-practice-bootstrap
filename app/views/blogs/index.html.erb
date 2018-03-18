@@ -9,10 +9,12 @@
         <h2><%= blog.title %></h2>
         <p><%= blog.content %></p>
         <div class="blog-links">
-          <%= link_to 'Show', blog, class: 'btn btn-default' %>
-          <% if blog.user_id == current_user.id %>
-            <%= link_to 'Edit', edit_blog_path(blog), class: 'btn btn-info' %> |
-            <%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+          <% if logged_in? %>
+            <%= link_to 'Show', blog, class: 'btn btn-default' %>
+            <% if blog.user_id == current_user.id %>
+              <%= link_to 'Edit', edit_blog_path(blog), class: 'btn btn-info' %> |
+              <%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+            <% end %>
           <% end %>
         </div>
       </div>
