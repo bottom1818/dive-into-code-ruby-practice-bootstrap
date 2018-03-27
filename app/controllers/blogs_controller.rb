@@ -5,8 +5,6 @@ class BlogsController < ApplicationController
   
   def index
     @blogs = Blog.all
-    #binding.pry
-    #raise
   end
 
   def new
@@ -27,10 +25,6 @@ class BlogsController < ApplicationController
   end
   
   def create
-    #Blog.create(title: params[:blog][:title], content: params[:blog][:content])
-    #Blog.create(params[:blog])
-    #Blog.create(blog_params)
-    #redirect_to new_blog_path
     @blog = Blog.new(blog_params)
     @blog.user = current_user
     
@@ -39,6 +33,9 @@ class BlogsController < ApplicationController
     logger.debug(@blog.user)
     
     if @blog.save
+      # 作成したことをメールで通知します
+      BlogUserMailer.blog_user_mail(@blog).deliver
+      
       # 一覧画面へ遷移して"ブログを作成しました！"とメッセージを表示します。
       redirect_to blogs_path, notice: "ブログを作成しました！"
     else
@@ -49,7 +46,6 @@ class BlogsController < ApplicationController
   end
   
   def show
-    #@blog = Blog.find(params[:id])
     if !logged_in?
       redirect_to new_session_path
     end
@@ -57,15 +53,15 @@ class BlogsController < ApplicationController
   end
   
   def edit
-    #@blog = Blog.find(params[:id])
     if !logged_in?
       redirect_to new_session_path
     end
   end
   
   def update
-    #@blog = Blog.find(params[:id])
     if @blog.update(blog_params)
+      # 編集したことをメールで通知します
+      BlogUserMailer.blog_user_mail(@blog).deliver
       redirect_to blogs_path, notice: "ブログを編集しました！"
     else
       render 'edit'
@@ -77,6 +73,8 @@ class BlogsController < ApplicationController
       redirect_to new_session_path
     end
     @blog.destroy
+    # 削除したことをメールで通知します
+    BlogUserMailer.blog_user_mail(@blog).deliver
     redirect_to blogs_path, notice:"ブログを削除しました！"
   end
   

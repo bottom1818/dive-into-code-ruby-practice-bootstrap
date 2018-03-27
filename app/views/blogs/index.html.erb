@@ -8,6 +8,7 @@
       <div class="blog-panel">
         <h2><%= blog.title %></h2>
         <p><%= blog.content %></p>
+        <p><%= blog.user.name %></p>
         <div class="blog-links">
           <% if logged_in? %>
             <%= link_to 'Show', blog, class: 'btn btn-default' %>
