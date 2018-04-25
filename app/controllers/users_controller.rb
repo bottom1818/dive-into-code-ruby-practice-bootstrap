@@ -7,6 +7,8 @@ class UsersController < ApplicationController
   
   def create
     @user = User.new(user_params)
+    logger.debug("Debug user create-----")
+    logger.debug(@user.image)
     if @user.save
       # 保存の成功した場合の処理
       redirect_to user_path(@user.id)
@@ -25,6 +27,6 @@ class UsersController < ApplicationController
   private
   def user_params
     params.require(:user).permit(:name, :email, :password,
-                                 :password_confirmation)
+                                 :password_confirmation, :image)
   end
 end

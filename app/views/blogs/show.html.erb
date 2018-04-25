@@ -2,6 +2,11 @@
 <p>タイトル: <%= @blog.title %></p>
 <p>内容: <%= @blog.content %></p>
 <p>作成者: <%= @blog.user.name %></p>
+<% if !@blog_image.nil? %>
+  <% if !@blog_image.image.nil? %>
+    <p><%= image_tag(@blog_image.image.url) %></p>
+  <% end %>
+<% end %>
 
 <%= link_to 'ブログ一覧画面にもどる', blogs_path, class: 'btn btn-primary' %>
 
